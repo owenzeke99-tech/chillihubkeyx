@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chilli Hub V3 Key</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --red: #ff2438;
+  --orange: #ff713d;
+  --bg: #070707;
+  --panel: rgba(18, 13, 15, .92);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 30px 15px;
+  overflow-x: hidden;
+  color: #fff;
+  font-family: Inter, sans-serif;
+  background: var(--bg);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Nền neon chuyển động */
+.background,
+.grid,
+#particles,
+#comets {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.background {
+  z-index: -5;
+  background:
+    radial-gradient(ellipse at 15% 20%, #4b101a 0%, transparent 40%),
+    radial-gradient(ellipse at 85% 80%, #35100d 0%, transparent 38%),
+    radial-gradient(ellipse at 50% 50%, #170b0e 0%, #050505 75%);
+  background-size: 150% 150%;
+  animation: bgShift 12s ease-in-out infinite alternate;
+}
+
+.grid {
+  z-index: -4;
+  opacity: .23;
+  background-image:
+    linear-gradient(rgba(255, 42, 60, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 42, 60, .08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+  animation: gridMove 18s linear infinite;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: -3;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    125deg,
+    transparent 0 85px,
+    rgba(255, 30, 50, .025) 86px 88px
+  );
+  animation: diagonalMove 25s linear infinite;
+}
+
+#particles { z-index: -2; overflow: hidden; }
+#comets { z-index: -1; overflow: hidden; }
+
+.particle {
+  position: absolute;
+  bottom: -25px;
+  border-radius: 50%;
+  background: #ff4b3e;
+  box-shadow: 0 0 10px 2px rgba(255, 40, 55, .65);
+  animation: particleRise linear infinite;
+}
+
+.comet {
+  position: absolute;
+  width: 100px;
+  height: 1px;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, #ff6049, #fff, transparent);
+  box-shadow: 0 0 12px #ff263d;
+  transform: rotate(-30deg);
+  animation: cometFly linear infinite;
+}
+
+/* Khung chính */
+.card {
+  width: min(100%, 490px);
+  padding: 32px 27px 25px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255, 55, 70, .25);
+  border-radius: 26px;
+  background: var(--panel);
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 35px rgba(255, 20, 45, .12),
+    0 25px 90px rgba(0, 0, 0, .6),
+    inset 0 0 40px rgba(255, 30, 50, .035);
+  transform-style: preserve-3d;
+  transition: border-color .4s, box-shadow .4s;
+  animation: cardAppear .9s cubic-bezier(.2,.8,.2,1) both,
+             cardBreath 5s ease-in-out 1s infinite;
+}
+
+.card:hover {
+  border-color: rgba(255, 65, 80, .58);
+  box-shadow:
+    0 0 55px rgba(255, 20, 45, .2),
+    0 25px 90px rgba(0, 0, 0, .6),
+    inset 0 0 40px rgba(255, 30, 50, .05);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff2438, #ffbd64, #fff, transparent);
+  animation: topScan 4s ease-in-out infinite;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 50, 65, .7),
+    transparent 25%,
+    transparent 65%,
+    rgba(255, 110, 55, .55)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderFlow 5s ease-in-out infinite alternate;
+}
+
+.corner {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-color: rgba(255, 60, 70, .7);
+  border-style: solid;
+  opacity: .7;
+  pointer-events: none;
+}
+.corner.tl { top: 9px; left: 9px; border-width: 1px 0 0 1px; border-radius: 8px 0 0; }
+.corner.tr { top: 9px; right: 9px; border-width: 1px 1px 0 0; border-radius: 0 8px 0 0; }
+.corner.bl { bottom: 9px; left: 9px; border-width: 0 0 1px 1px; border-radius: 0 0 0 8px; }
+.corner.br { bottom: 9px; right: 9px; border-width: 0 1px 1px 0; border-radius: 0 0 8px; }
+
+/* Trạng thái hệ thống */
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 24px;
+  color: #ffb3bb;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  animation: fadeIn .8s .2s both;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff394b;
+  box-shadow: 0 0 12px #ff2438;
+  animation: dotPulse 1.4s ease-in-out infinite;
+}
+
+/* Logo */
+.logo-wrap {
+  width: 106px;
+  height: 106px;
+  margin: 0 auto 22px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, #451016, #19090c 65%, #0c090a);
+  border: 1px solid rgba(255, 58, 70, .55);
+  box-shadow: 0 0 25px rgba(255, 32, 50, .3), inset 0 0 25px rgba(255, 35, 50, .18);
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite alternate;
+}
+
+.logo-wrap::before,
+.logo-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(255, 45, 60, .55);
+  border-radius: 50%;
+  animation: ringPulse 3s ease-out infinite;
+}
+
+.logo-wrap::after {
+  inset: -15px;
+  border-color: rgba(255, 120, 50, .3);
+  animation-delay: 1.5s;
+}
+
+.logo {
+  width: 76px;
+  height: 76px;
+  filter: drop-shadow(0 0 9px rgba(255, 35, 45, .7));
+  animation: logoTilt 5s ease-in-out infinite;
+}
+
+/* Tiêu đề */
+h1 {
+  text-align: center;
+  font-family: Orbitron, sans-serif;
+  font-size: clamp(27px, 7vw, 38px);
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: 1px;
+  color: transparent;
+  background: linear-gradient(100deg, #fff, #ff9da7, #ff263d, #ff9b53, #fff);
+  background-size: 300% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: titleShine 5s linear infinite, titleGlow 3s ease-in-out infinite alternate;
+}
+
+.subtitle {
+  margin: 12px auto 24px;
+  max-width: 340px;
+  text-align: center;
+  color: #aaa1a4;
+  font-size: 13px;
+  line-height: 1.8;
+  animation: fadeUp .8s .2s both;
+}
+
+.divider {
+  height: 1px;
+  margin: 22px 0;
+  background: linear-gradient(90deg, transparent, #77212b, #ff3b49, #77212b, transparent);
+  background-size: 200% auto;
+  animation: dividerFlow 4s linear infinite;
+}
+
+/* Key */
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.label {
+  color: #f4dfe1;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.badge {
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 53, 70, .35);
+  border-radius: 20px;
+  background: rgba(255, 30, 50, .09);
+  color: #ff8b98;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  animation: badgeGlow 2s ease-in-out infinite alternate;
+}
+
+.key-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 14px;
+  border: 1px solid rgba(255, 55, 70, .3);
+  border-radius: 13px;
+  background: rgba(0, 0, 0, .52);
+  transition: .3s;
+  animation: keyGlow 4s ease-in-out infinite;
+}
+
+.key-box:hover {
+  border-color: #ff5265;
+  box-shadow: 0 0 22px rgba(255, 35, 55, .17);
+}
+
+.key-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.7;
+  font-weight: 600;
+  user-select: all;
+}
+
+.copy-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid rgba(255, 50, 65, .4);
+  border-radius: 9px;
+  background: rgba(255, 30, 50, .12);
+  color: #ff7785;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.copy-icon:hover {
+  color: white;
+  background: #e91e35;
+  box-shadow: 0 0 18px rgba(255, 30, 50, .5);
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.copy-button {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 14px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 125, 125, .2);
+  border-radius: 12px;
+  color: white;
+  background: linear-gradient(100deg, #a80e23, #ff2438, #ff563e, #b60c27);
+  background-size: 250% 100%;
+  box-shadow: 0 8px 25px rgba(255, 20, 45, .25);
+  font-family: Inter, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+  animation: buttonGradient 5s linear infinite, buttonPulse 2.8s ease-in-out infinite;
+}
+
+.copy-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.38), transparent);
+  transform: skewX(-20deg);
+  animation: buttonSweep 3.5s ease-in-out infinite;
+}
+
+.copy-button span { position: relative; z-index: 1; }
+
+.copy-button:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 12px 38px rgba(255, 20, 45, .45);
+}
+
+.copy-button:active { transform: scale(.98); }
+
+/* Các thẻ tính năng */
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 23px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 68px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, .065);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, .025);
+  transition: transform .3s, border-color .3s, background .3s;
+  animation: featureEnter .7s both;
+}
+
+.feature:nth-child(1) { animation-delay: .2s; }
+.feature:nth-child(2) { animation-delay: .35s; }
+.feature:nth-child(3) { animation-delay: .5s; }
+.feature:nth-child(4) { animation-delay: .65s; }
+
+.feature:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 50, 70, .5);
+  background: rgba(255, 30, 50, .07);
+}
+
+.feature-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: #ff6474;
+  background: rgba(255, 35, 55, .12);
+  font-size: 16px;
+  transition: transform .3s, box-shadow .3s;
+}
+
+.feature:hover .feature-icon {
+  transform: rotate(10deg) scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 30, 50, .2);
+}
+
+.feature-title {
+  margin-bottom: 4px;
+  color: #f5f0f1;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.feature-desc {
+  color: #898286;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.footer {
+  margin-top: 24px;
+  text-align: center;
+  color: #71696d;
+  font-size: 10px;
+  letter-spacing: .7px;
+}
+
+.footer span {
+  color: #ff5263;
+  font-weight: 800;
+  animation: footerGlow 2s ease-in-out infinite alternate;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 20;
+  max-width: calc(100vw - 30px);
+  padding: 13px 18px;
+  border: 1px solid rgba(255, 80, 90, .45);
+  border-radius: 12px;
+  background: #1b0c0f;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 10px 35px rgba(0,0,0,.4), 0 0 20px rgba(255,30,50,.12);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+  transition: .3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Hiệu ứng */
+@keyframes bgShift {
+  0% { background-position: 0% 20%; filter: hue-rotate(0deg); }
+  100% { background-position: 100% 80%; filter: hue-rotate(12deg); }
+}
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to { background-position: 44px 44px; }
+}
+@keyframes diagonalMove {
+  from { transform: translate(0,0) rotate(0); }
+  to { transform: translate(70px,35px) rotate(5deg); }
+}
+@keyframes particleRise {
+  0% { transform: translate3d(0,0,0) scale(.5); opacity: 0; }
+  15% { opacity: .8; }
+  75% { opacity: .7; }
+  100% { transform: translate3d(35px,-110vh,0) scale(1.5); opacity: 0; }
+}
+@keyframes cometFly {
+  0% { transform: translate(-20vw, 20vh) rotate(-30deg); opacity: 0; }
+  10% { opacity: .8; }
+  35% { opacity: 0; }
+  100% { transform: translate(120vw,-70vh) rotate(-30deg); opacity: 0; }
+}
+@keyframes cardAppear {
+  from { opacity: 0; transform: translateY(35px) scale(.96); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes cardBreath {
+  0%,100% { box-shadow: 0 0 35px rgba(255,20,45,.10), 0 25px 90px rgba(0,0,0,.6); }
+  50% { box-shadow: 0 0 55px rgba(255,20,45,.19), 0 25px 90px rgba(0,0,0,.6); }
+}
+@keyframes topScan {
+  0% { left: -120%; }
+  60%,100% { left: 120%; }
+}
+@keyframes borderFlow {
+  from { opacity: .3; }
+  to { opacity: .95; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dotPulse {
+  0%,100% { opacity: 1; box-shadow: 0 0 5px #ff2438; }
+  50% { opacity: .45; box-shadow: 0 0 18px #ff2438; }
+}
+@keyframes logoFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes logoGlow {
+  from { box-shadow: 0 0 15px rgba(255,32,50,.25), inset 0 0 15px rgba(255,35,50,.12); }
+  to { box-shadow: 0 0 35px rgba(255,32,50,.5), inset 0 0 28px rgba(255,35,50,.2); }
+}
+@keyframes ringPulse {
+  0% { transform: scale(.88); opacity: .8; }
+  100% { transform: scale(1.28); opacity: 0; }
+}
+@keyframes logoTilt {
+  0%,100% { transform: rotate(-5deg) scale(1); }
+  50% { transform: rotate(5deg) scale(1.06); }
+}
+@keyframes titleShine {
+  from { background-position: 100% center; }
+  to { background-position: -200% center; }
+}
+@keyframes titleGlow {
+  from { filter: drop-shadow(0 0 1px rgba(255,35,55,.2)); }
+  to { filter: drop-shadow(0 0 12px rgba(255,35,55,.5)); }
+}
+@keyframes dividerFlow {
+  from { background-position: 100% center; }
+  to { background-position: -100% center; }
+}
+@keyframes badgeGlow {
+  from { box-shadow: 0 0 0 rgba(255,35,55,0); }
+  to { box-shadow: 0 0 15px rgba(255,35,55,.2); }
+}
+@keyframes keyGlow {
+  0%,100% { border-color: rgba(255,55,70,.2); }
+  50% { border-color: rgba(255,55,70,.5); }
+}
+@keyframes buttonGradient {
+  from { background-position: 0% center; }
+  to { background-position: 250% center; }
+}
+@keyframes buttonSweep {
+  0%,30% { left: -120%; }
+  65%,100% { left: 150%; }
+}
+@keyframes buttonPulse {
+  0%,100% { box-shadow: 0 8px 25px rgba(255,20,45,.2); }
+  50% { box-shadow: 0 8px 35px rgba(255,20,45,.42); }
+}
+@keyframes featureEnter {
+  from { opacity: 0; transform: translateY(14px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes footerGlow {
+  from { text-shadow: 0 0 0 transparent; }
+  to { text-shadow: 0 0 10px rgba(255,50,70,.7); }
+}
+
+@media (max-width: 400px) {
+  .card { padding: 28px 19px 22px; }
+  .features { gap: 8px; }
+  .feature { padding: 10px 8px; gap: 8px; }
+  .feature-icon { width: 30px; height: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="background"></div>
+<div class="grid"></div>
+<div id="particles"></div>
+<div id="comets"></div>
+
+<main class="card" id="mainCard">
+  <span class="corner tl"></span>
+  <span class="corner tr"></span>
+  <span class="corner bl"></span>
+  <span class="corner br"></span>
+
+  <div class="status">
+    <span class="status-dot"></span>
+    SYSTEM ONLINE
+  </div>
+
+  <div class="logo-wrap">
+    <svg class="logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M53 25C45 14 51 8 62 5C60 14 65 17 71 18C65 23 60 25 53 25Z" fill="#7CDB62"/>
+      <path d="M54 26C37 18 21 28 22 44C23 59 36 78 49 88C57 94 65 83 69 70C73 57 75 43 67 33C64 29 59 27 54 26Z" fill="#E51D32"/>
+      <path d="M48 30C36 27 29 35 31 46C33 57 43 72 51 78C54 67 59 49 55 37C54 34 51 31 48 30Z" fill="#FF5A36"/>
+      <path d="M37 35C34 43 40 54 46 59" stroke="#FFB34D" stroke-width="3" stroke-linecap="round"/>
+      <path d="M20 63C12 58 10 49 15 42C12 53 23 55 25 61" fill="#FF7A32"/>
+      <path d="M69 25C78 17 83 22 81 31C79 37 73 40 70 42C75 32 72 30 69 25Z" fill="#FFB13D"/>
+      <path d="M47 18C41 10 45 5 51 3C49 10 53 12 56 14" fill="#FF4B37"/>
+      <path d="M66 47C77 45 83 53 79 63C76 70 69 73 65 75C72 65 72 57 66 47Z" fill="#FF352F"/>
+      <circle cx="35" cy="28" r="2" fill="#FFE2A0"/>
+      <circle cx="73" cy="18" r="1.5" fill="#FFE2A0"/>
+      <path d="M18 25L20 30L25 32L20 34L18 39L16 34L11 32L16 30L18 25Z" fill="#FFB54A"/>
+      <path d="M81 76L83 80L87 82L83 84L81 88L79 84L75 82L79 80L81 76Z" fill="#FF573C"/>
+    </svg>
+  </div>
+
+  <h1>CHILLI HUB V3</h1>
+  <p class="subtitle">
+    Your access key is ready.<br>
+    Copy your key below and enjoy.
+  </p>
+
+  <div class="divider"></div>
+
+  <div class="label-row">
+    <span class="label">Your Access Key</span>
+    <span class="badge">● ACTIVE KEY</span>
+  </div>
+
+  <div class="key-box">
+    <div class="key-text" id="keyText">ChilliHubKeyKsowowj - LaVisoaowijepoehsb</div>
+    <button class="copy-icon" onclick="copyKey()" aria-label="Copy key" title="Copy key">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="8" y="8" width="13" height="13" rx="2"/>
+        <path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>
+      </svg>
+    </button>
+  </div>
+
+  <button class="copy-button" onclick="copyKey()">
+    <span>✦ &nbsp; COPY ACCESS KEY &nbsp; ✦</span>
+  </button>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">♨</div>
+      <div>
+        <div class="feature-title">Chilli Hub</div>
+        <div class="feature-desc">Premium hub interface</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <div>
+        <div class="feature-title">Quick Copy</div>
+        <div class="feature-desc">Copy your key instantly</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">◆</div>
+      <div>
+        <div class="feature-title">Easy Access</div>
+        <div class="feature-desc">Key displayed clearly</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">✧</div>
+      <div>
+        <div class="feature-title">Responsive</div>
+        <div class="feature-desc">Mobile and desktop ready</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="footer">POWERED BY <span>CHILLI HUB</span> &nbsp;•&nbsp; V3</div>
+</main>
+
+<div class="toast" id="toast">✓ Key copied successfully!</div>
+
+<script>
+/* Tạo hạt lửa bay */
+const particleContainer = document.getElementById("particles");
+
+for (let i = 0; i < 48; i++) {
+  const particle = document.createElement("span");
+  particle.className = "particle";
+  particle.style.left = Math.random() * 100 + "%";
+  particle.style.animationDuration = (7 + Math.random() * 13) + "s";
+  particle.style.animationDelay = (Math.random() * 15) + "s";
+
+  const size = 2 + Math.random() * 3;
+  particle.style.width = size + "px";
+  particle.style.height = size + "px";
+
+  particleContainer.appendChild(particle);
+}
+
+/* Tạo tia sáng bay ngang */
+const cometContainer = document.getElementById("comets");
+
+for (let i = 0; i < 7; i++) {
+  const comet = document.createElement("span");
+  comet.className = "comet";
+  comet.style.top = (Math.random() * 100) + "%";
+  comet.style.left = (Math.random() * 100) + "%";
+  comet.style.animationDuration = (7 + Math.random() * 10) + "s";
+  comet.style.animationDelay = (Math.random() * 12) + "s";
+  cometContainer.appendChild(comet);
+}
+
+/* Hiệu ứng nghiêng 3D khi rê chuột, tắt trên màn hình cảm ứng */
+const card = document.getElementById("mainCard");
+const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+if (canHover.matches) {
+  card.addEventListener("mousemove", (event) => {
+    const rect = card.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+
+    const rotateY = (x - 0.5) * 5;
+    const rotateX = (0.5 - y) * 5;
+
+    card.style.transform =
+      `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+
+  card.addEventListener("mouseleave", () => {
+    card.style.transform = "";
+  });
+}
+
+/* Sao chép key */
+let toastTimer;
+
+async function copyKey() {
+  const key = document.getElementById("keyText").innerText;
+  let copied = false;
+
+  try {
+    await navigator.clipboard.writeText(key);
+    copied = true;
+  } catch (error) {
+    const temp = document.createElement("textarea");
+    temp.value = key;
+    temp.style.position = "fixed";
+    temp.style.left = "-9999px";
+    document.body.appendChild(temp);
+    temp.select();
+
+    try {
+      copied = document.execCommand("copy");
+    } catch (e) {
+      copied = false;
+    }
+
+    temp.remove();
+  }
+
+  showToast(
+    copied
+      ? "✓ Key copied successfully!"
+      : "Không thể tự sao chép. Hãy chọn và copy key thủ công."
+  );
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2400);
+}
+</script>
+</body>
+</html>
